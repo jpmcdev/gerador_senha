@@ -23,7 +23,7 @@
         <div class="">
             <div class="">
                 <input type="range" class="passwordLenght" id="passwordLenght" value="16" min="4" max="128" />
-                <button class="">Cópiar Senha</button>
+                <button class="btnCopyPassword" id="btnCopyPassword">Cópiar Senha</button>
                 <button class="">Limpar Senha</button>
             </div>
             <div class="">
@@ -49,14 +49,16 @@
         const passwordGenerated = document.querySelector("#passwordGenerated");
         // Range Password
         const passwordLenght = document.querySelector("#passwordLenght");
-        // Count Range
+        // Button Copy Password
+        const btnCopyPassword = document.querySelector('#btnCopyPassword')
+        // Count Range Default
         let valueRangePassword = 16;
         
 
-        // Função Geradora de Senha
+        // Function Generated Password
         const generatedPassword = () => {
 
-            // Modelo Padrão de caracteres
+            // Model Default Caracter
             const chars = "abcdefghjlmnpqrstuvwxyzABCDEFGHJLMNPQRSTUVWXYZ123456789?!@#&*()[]"
 
             let password = "";
@@ -68,17 +70,22 @@
             }
 
             passwordGenerated.value = password;
-            // console.log(password);
+
         }
 
+        // Function Event Change Range
         passwordLenght.addEventListener("input", () => {
 
             valueRangePassword = passwordLenght.value;
-            console.log(valueRangePassword);
 
             generatedPassword();
 
         })
+
+        // Event Click Copy Password
+        btnCopyPassword.addEventListener("click", () => {
+            navigator.clipboard.writeText(passwordGenerated.value);
+        });
 
         generatedPassword();
 

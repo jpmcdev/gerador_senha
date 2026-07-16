@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Senha</title>
+</head>
+<body>
+    <div class="">
+        <h1 class="">Gerador de Senha</h1>
+        <p class="">
+            Gere senhas fortes, seguras e aleatórias em
+            poucos segundos para proteger suas contas contra acessos não autorizados.
+        </p>
+    </div>
+    <div class="">
+        <input type="text" class="passwordGenerated" id="passwordGenerated" autocomplete="off" readonly/>
+    </div>
+    <div class=""> 
+        <h3>Personalizar</h3>
+        <hr class="">
+        <div class="">
+            <div class="">
+                <input type="range" class="passwordLenght" id="passwordLenght" value="16" min="4" max="254" />
+                <button class="">Cópiar Senha</button>
+                <button class="">Limpar Senha</button>
+            </div>
+            <div class="">
+                <div class="">
+                    <input type="checkbox" class="passwordUppercase" checked>
+                    <label for="passwordUppercase" class="">Maísculas</label>
+                </div>
+                <div class="">
+                    <input type="checkbox" class="passwordNumber" checked>
+                    <label for="passwordNumber" class="" >Números</label>
+                </div>
+                <div class="">
+                    <input type="checkbox" class="passwordSymbol" checked>
+                    <label for="passwordSymbol" class="">Símbolos</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script class="">
+
+        const passwordGenerated = document.querySelector("#passwordGenerated");
+        const passwordLenght = document.querySelector("#passwordLenght");
+        
+
+        const generatedPassword = () => {
+
+            
+
+            const chars = "abcdefghjlmnpqrstuvwxyzABCDEFGHJLMNPQRSTUVWXYZ123456789?!@#&*()[]"
+
+            let password = "";
+
+            for(let c = 0; c < 8; c++){
+                const randomPassword = Math.floor(Math.random() * chars.length);
+
+                password += chars.substring(randomPassword, randomPassword + 1);
+            }
+
+            passwordGenerated.value = password;
+            console.log(password);
+        }
+
+        passwordLenght.addEventListener("input", () => {
+
+            const valueRangePassword = passwordLenght.value;
+            console.log(valueRangePassword);
+
+        })
+
+        generatedPassword();
+
+
+
+    </script>
+    
+</body>
+</html>

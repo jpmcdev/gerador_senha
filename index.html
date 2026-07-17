@@ -457,17 +457,14 @@ input[type="checkbox"] {
         opacity: 0;
         transform: translate(-50%, -20px);
     }
-
     15% {
         opacity: 1;
         transform: translate(-50%, 0);
     }
-
     85% {
         opacity: 1;
         transform: translate(-50%, 0);
     }
-
     100% {
         opacity: 0;
         transform: translate(-50%, -20px);
@@ -803,6 +800,17 @@ input[type="checkbox"] {
             }
 
             passwordGenerated.value = password;
+
+            calcQuality();
+        }
+
+        function calcQuality () {
+
+            const percent = Math.round((valueRangePassword / 128) * 100 * 0.25 + (chkSymbol.checked ? 0.35 : 0) + (chkNumber.checked ? 0.25 : 0) + (chkUppercase.checked ? 0.15 : 0));
+
+            barValueRange.style.width = `${percent}%`;
+
+            console.log();
         }
 
 
@@ -815,37 +823,31 @@ input[type="checkbox"] {
 
             if(valorRange <= 10) {
                 passwordGenerated.style = "font-size: 2rem";
-                barValueRange.style = "width: 15%";
                 labelLenght.innerHTML = "Fraca";
                 labelLenght.style.color = "#ED465B";
                 labelCardDescription.innerHTML = "Instantânea";
             } else if(valorRange <= 30){
                 passwordGenerated.style = "font-size: 1.7rem";
-                barValueRange.style = "width: 30%";
                 labelLenght.innerHTML = "Razoável";
                 labelLenght.style.color = "#FB7F48";
                 labelCardDescription.innerHTML = "Alguns minutos";
             } else if(valorRange <= 50){
                 passwordGenerated.style = "font-size: 1.4rem";
-                barValueRange.style = "width: 45%";
                 labelLenght.innerHTML = "Média";
                 labelLenght.style.color = "#F3C650";
                 labelCardDescription.innerHTML = "Alguns dias";
             } else if(valorRange <= 70){
                 passwordGenerated.style = "font-size: 1.1rem";
-                barValueRange.style = "width: 60%";
                 labelLenght.innerHTML = "Forte";
                 labelLenght.style.color = "#5EE198";
                 labelCardDescription.innerHTML = "Alguns anos";
             } else if(valorRange <= 90){
                 passwordGenerated.style = "font-size: 0.9rem";
-                barValueRange.style = "width: 80%";
                 labelLenght.innerHTML = "Muito Forte";
                 labelLenght.style.color = "#4C8AD8";
                 labelCardDescription.innerHTML = "Milhares de anos";
             } else if(valorRange <= 110){
                 passwordGenerated.style = "font-size: 0.7rem";
-                barValueRange.style = "width: 100%";
                 labelLenght.innerHTML = "Inquebrável";
                 labelLenght.style.color = "#896CC4";
                 labelCardDescription.innerHTML = "Milhões de anos"; 
@@ -855,7 +857,7 @@ input[type="checkbox"] {
 
             viewValueRange.innerHTML = valorRange;
 
-            console.log(valorRange);
+            // console.log(valorRange);
 
             generatedPassword();
 

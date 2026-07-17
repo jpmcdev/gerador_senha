@@ -223,7 +223,7 @@ main {
 
 .barPasswordValue {
     display: block;
-    width: 80%;
+    width: 1%;
     height: 100%;
     background-color: var(--cyan);
     border-radius: inherit;
@@ -630,7 +630,7 @@ input[type="checkbox"] {
                 <span class="barPassword">
                     <span class="barPasswordValue"></span>
                 </span>
-                <label for="passwordLenght" class="labelLenght">Inquebrável</label>
+                <label for="passwordLenght" class="labelLenght"></label>
             </div>
             <button class="btnCopyPassword" id="btnCopyPassword"><i class="fa-regular fa-copy"></i>Cópiar Senha</button>
             <button class="btnResetConf"><i class="fa-solid fa-arrows-rotate"></i>Renegerar</button>
@@ -640,11 +640,11 @@ input[type="checkbox"] {
         <div class="cardDefault">
                 <span class="titleCardSecundary">
                     COMPRIMENTO
-                    <span class="valueRange">64</span>
+                    <span class="valueRange">4</span>
                 </span>
-                <input type="range" class="passwordLenght" id="passwordLenght" value="16" min="4" max="128" />
+                <input type="range" class="passwordLenght" id="passwordLenght" value="4" min="4" max="128" />
                 <span class="labelRange">
-                    <span>6</span>
+                    <span>4</span>
                     <span>128</span>
                 </span>
         </div>
@@ -705,11 +705,24 @@ input[type="checkbox"] {
         // Range Password
         const passwordLenght = document.querySelector("#passwordLenght");
         // Button Copy Password
-        const btnCopyPassword = document.querySelector('#btnCopyPassword')
+        const btnCopyPassword = document.querySelector('#btnCopyPassword');
+        // View Value Range
+        const viewValueRange = document.querySelector('.valueRange');
+        // Bar Value Range
+        const barValueRange = document.querySelector(".barPasswordValue")
         // Count Range Default
-        let valueRangePassword = 16;
+        let valueRangePassword = 4;
 
-
+        const labelLenght = document.querySelector(".labelLenght")
+        // Checkbox Adjust Password
+        const chkSymbol = document.querySelector(".passwordSymbol");
+        const chkUppercase = document.querySelector(".passwordUppercase");
+        const chkNumber = document.querySelector(".passwordNumber");
+        // Values Types Caracter Passwords
+        const textLowercase = "abcdefghjlmnpqrstuvwxyz"
+        const textUppercase = "ABCDEFGHJLMNPQRSTUVWXYZ";
+        const textNumber = "123456789"; 
+        const textSymbol = "?!@#&*()[]";
 
         // -------------FUNCTION-------------------------
 
@@ -717,34 +730,65 @@ input[type="checkbox"] {
         const generatedPassword = () => {
 
             // Model Default Caracter
-            const chars = "abcdefghjlmnpqrstuvwxyzABCDEFGHJLMNPQRSTUVWXYZ123456789?!@#&*()[]"
+            let chars = textLowercase;
+
+            // Verifica se os Checkbo estão marcados
+            chkUppercase.checked ? chars += textUppercase : chars;
+            
+            chkNumber.checked ? chars += textNumber : chars;
+
+            chkSymbol.checked ? chars += textSymbol : chars;
+
 
             let password = "";
 
             for (let c = 0; c < valueRangePassword; c++) {
                 const randomPassword = Math.floor(Math.random() * chars.length);
-
-                password += chars.substring(randomPassword, randomPassword + 1);
+                password += chars.substring(randomPassword, randomPassword + 1); 
             }
 
             passwordGenerated.value = password;
-
         }
+
 
         // Function Event Change Range
         passwordLenght.addEventListener("input", () => {
 
             valueRangePassword = passwordLenght.value;
 
+            valorRange = Number(passwordLenght.value);
+
+            if(valorRange <= 20) {
+                passwordGenerated.style = "font-size: 2rem";
+                barValueRange.style = "width: 33%";
+                labelLenght.innerHTML = "Normal";
+            } else if(valorRange <= 60){
+                passwordGenerated.style = "font-size: 1.5rem";
+                barValueRange.style = "width: 66%";
+                labelLenght.innerHTML = "Razoável";
+            } else if(valorRange <= 100){
+                passwordGenerated.style = "font-size: 0.7rem";
+                barValueRange.style = "width: 100%";
+                labelLenght.innerHTML = "Inquebrável";
+            }
+
+            viewValueRange.innerHTML = valorRange;
+
             generatedPassword();
 
         })
+
+        // Function Event Click Checkbox
+        chkUppercase.addEventListener("click", generatedPassword);
+        chkNumber.addEventListener("click", generatedPassword);
+        chkSymbol.addEventListener("click", generatedPassword);
 
         // Event Click Copy Password
         btnCopyPassword.addEventListener("click", () => {
             navigator.clipboard.writeText(passwordGenerated.value);
         });
 
+        // Exec Function Generated Password
         generatedPassword();
 
     </script>

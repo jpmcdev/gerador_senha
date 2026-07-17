@@ -426,6 +426,54 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
+.cardInfo{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tagCopy {
+    background: #141419;
+    color: white;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 30px;
+    font-family: "Orbitron", sans-serif;
+    font-weight: 700;
+    border: 2px solid var(--cyan);
+    border-radius: 6px;
+    width: 70%;
+    text-align: center;
+    /* Animação */
+    opacity: 0;
+    animation: copyAnimation 2s ease forwards;
+}
+
+@keyframes copyAnimation {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+
+    15% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    85% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+}
+
 /* Responsividade para tablets */
 
 @media (max-width: 768px) {
@@ -625,6 +673,9 @@ input[type="checkbox"] {
                     ENTROPY
                 </span>
             </span>
+            <div class="cardInfo">
+                
+            </div>
             <input type="text" class="passwordGenerated" id="passwordGenerated" autocomplete="off" readonly />
             <div class="rangePassword">
                 <span class="barPassword">
@@ -696,6 +747,8 @@ input[type="checkbox"] {
         
     </main>
 
+    
+
 
     <script src="https://kit.fontawesome.com/258332114a.js" crossorigin="anonymous"></script>
     <script class="">
@@ -709,11 +762,13 @@ input[type="checkbox"] {
         // View Value Range
         const viewValueRange = document.querySelector('.valueRange');
         // Bar Value Range
-        const barValueRange = document.querySelector(".barPasswordValue")
+        const barValueRange = document.querySelector(".barPasswordValue");
         // Count Range Default
         let valueRangePassword = 4;
 
-        const labelLenght = document.querySelector(".labelLenght")
+        const labelLenght = document.querySelector(".labelLenght");
+
+        const labelCardDescription = document.querySelector(".labelCardDescription");
         // Checkbox Adjust Password
         const chkSymbol = document.querySelector(".passwordSymbol");
         const chkUppercase = document.querySelector(".passwordUppercase");
@@ -735,7 +790,7 @@ input[type="checkbox"] {
             // Verifica se os Checkbo estão marcados
             chkUppercase.checked ? chars += textUppercase : chars;
             
-            chkNumber.checked ? chars += textNumber : chars;
+            chkNumber.checked ? chars += textNumber : chars; 
 
             chkSymbol.checked ? chars += textSymbol : chars;
 
@@ -758,21 +813,49 @@ input[type="checkbox"] {
 
             valorRange = Number(passwordLenght.value);
 
-            if(valorRange <= 20) {
+            if(valorRange <= 10) {
                 passwordGenerated.style = "font-size: 2rem";
-                barValueRange.style = "width: 33%";
-                labelLenght.innerHTML = "Normal";
-            } else if(valorRange <= 60){
-                passwordGenerated.style = "font-size: 1.5rem";
-                barValueRange.style = "width: 66%";
+                barValueRange.style = "width: 15%";
+                labelLenght.innerHTML = "Fraca";
+                labelLenght.style.color = "#ED465B";
+                labelCardDescription.innerHTML = "Instantânea";
+            } else if(valorRange <= 30){
+                passwordGenerated.style = "font-size: 1.7rem";
+                barValueRange.style = "width: 30%";
                 labelLenght.innerHTML = "Razoável";
-            } else if(valorRange <= 100){
+                labelLenght.style.color = "#FB7F48";
+                labelCardDescription.innerHTML = "Alguns minutos";
+            } else if(valorRange <= 50){
+                passwordGenerated.style = "font-size: 1.4rem";
+                barValueRange.style = "width: 45%";
+                labelLenght.innerHTML = "Média";
+                labelLenght.style.color = "#F3C650";
+                labelCardDescription.innerHTML = "Alguns dias";
+            } else if(valorRange <= 70){
+                passwordGenerated.style = "font-size: 1.1rem";
+                barValueRange.style = "width: 60%";
+                labelLenght.innerHTML = "Forte";
+                labelLenght.style.color = "#5EE198";
+                labelCardDescription.innerHTML = "Alguns anos";
+            } else if(valorRange <= 90){
+                passwordGenerated.style = "font-size: 0.9rem";
+                barValueRange.style = "width: 80%";
+                labelLenght.innerHTML = "Muito Forte";
+                labelLenght.style.color = "#4C8AD8";
+                labelCardDescription.innerHTML = "Milhares de anos";
+            } else if(valorRange <= 110){
                 passwordGenerated.style = "font-size: 0.7rem";
                 barValueRange.style = "width: 100%";
                 labelLenght.innerHTML = "Inquebrável";
+                labelLenght.style.color = "#896CC4";
+                labelCardDescription.innerHTML = "Milhões de anos"; 
             }
 
+
+
             viewValueRange.innerHTML = valorRange;
+
+            console.log(valorRange);
 
             generatedPassword();
 
@@ -786,6 +869,14 @@ input[type="checkbox"] {
         // Event Click Copy Password
         btnCopyPassword.addEventListener("click", () => {
             navigator.clipboard.writeText(passwordGenerated.value);
+
+            tagCopy = '<span class="tagCopy">Senha Copiada!</span>';
+
+            document.querySelector(".cardInfo").innerHTML = tagCopy;
+
+            setTimeout(() =>{
+                document.querySelector(".cardInfo").innerHTML = "";
+            },2000)
         });
 
         // Exec Function Generated Password

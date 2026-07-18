@@ -202,6 +202,23 @@ main {
     border-color: var(--cyan);
 }
 
+.inputPass-sm{
+    font-size: 1rem;
+}
+.inputPass-md{
+    font-size: 1.5rem;
+}
+.inputPass-lg{
+    font-size: 2rem;
+}
+.inputPass-xs{
+    font-size: 3rem;
+}
+
+
+/* Ajuste de Fontes */
+
+
 /* Medidor da senha */
 
 .rangePassword {
@@ -227,6 +244,7 @@ main {
     height: 100%;
     background-color: var(--cyan);
     border-radius: inherit;
+    transition: all 0.3s;
 }
 
 .labelLenght {
@@ -673,7 +691,7 @@ input[type="checkbox"] {
             <div class="cardInfo">
                 
             </div>
-            <input type="text" class="passwordGenerated" id="passwordGenerated" autocomplete="off" readonly />
+            <input type="text" class="passwordGenerated inputPass-sm" id="passwordGenerated" autocomplete="off" readonly />
             <div class="rangePassword">
                 <span class="barPassword">
                     <span class="barPasswordValue"></span>
@@ -690,7 +708,7 @@ input[type="checkbox"] {
                     COMPRIMENTO
                     <span class="valueRange">4</span>
                 </span>
-                <input type="range" class="passwordLenght" id="passwordLenght" value="4" min="4" max="128" />
+                <input type="range" class="passwordLenght" id="passwordLenght" value="6" min="4" max="128" />
                 <span class="labelRange">
                     <span>4</span>
                     <span>128</span>
@@ -700,7 +718,7 @@ input[type="checkbox"] {
         <div class="cardDefault">
             <div class="cardLineCheckbox">
                 <div class="cardCheckbox">
-                    <input type="checkbox" class="passwordUppercase inputCheckbox" checked>
+                    <input type="checkbox" class="passwordUppercase inputCheckbox">
                     <div class="">
                         <label for="passwordUppercase" class="">Maísculas</label>
                         <span class="descriptionCheckbox">A-Z</span>
@@ -715,7 +733,7 @@ input[type="checkbox"] {
         <div class="cardDefault">
             <div class="cardLineCheckbox">
                 <div class="cardCheckbox">
-                    <input type="checkbox" class="passwordNumber inputCheckbox" checked>
+                    <input type="checkbox" class="passwordNumber inputCheckbox">
                     <div class="">
                         <label for="passwordNumber" class="">Números</label>
                         <span class="descriptionCheckbox">1-9</span>
@@ -730,7 +748,7 @@ input[type="checkbox"] {
         <div class="cardDefault">
             <div class="cardLineCheckbox">
                 <div class="cardCheckbox">
-                    <input type="checkbox" class="passwordSymbol inputCheckbox" checked>
+                    <input type="checkbox" class="passwordSymbol inputCheckbox">
                     <div class="">
                         <label for="passwordNumber" class="">Símbolos</label>
                         <span class="descriptionCheckbox">1!@</span>
@@ -761,7 +779,7 @@ input[type="checkbox"] {
         // Bar Value Range
         const barValueRange = document.querySelector(".barPasswordValue");
         // Count Range Default
-        let valueRangePassword = 4;
+        let valueRangePassword = 6;
 
         const labelLenght = document.querySelector(".labelLenght");
 
@@ -806,11 +824,65 @@ input[type="checkbox"] {
 
         function calcQuality () {
 
-            const percent = Math.round((valueRangePassword / 128) * 100 * 0.25 + (chkSymbol.checked ? 0.35 : 0) + (chkNumber.checked ? 0.25 : 0) + (chkUppercase.checked ? 0.15 : 0));
+            const percent = Math.round((valueRangePassword / 128) * 25 +
+                (chkSymbol.checked ? 35 : 0) + (chkNumber.checked ? 25 : 0) +
+                (chkUppercase.checked ? 25 : 0)
+            );
 
             barValueRange.style.width = `${percent}%`;
 
-            console.log();
+            console.log(percent);
+
+                        if(percent <= 10) {
+                passwordGenerated.classList.add("inputPass-xs");
+                passwordGenerated.classList.remove("inputPass-lg");
+                passwordGenerated.classList.remove("inputPass-md");
+                passwordGenerated.classList.remove("inputPass-sm");
+                labelLenght.innerHTML = "Fraca";
+                labelLenght.style.color = "#ED465B";
+                labelCardDescription.innerHTML = "Instantânea";
+            } else if(percent <= 30){
+                passwordGenerated.classList.remove("inputPass-xs");
+                passwordGenerated.classList.add("inputPass-lg");
+                passwordGenerated.classList.remove("inputPass-md");
+                passwordGenerated.classList.remove("inputPass-sm");
+                labelLenght.innerHTML = "Razoável";
+                labelLenght.style.color = "#FB7F48";
+                labelCardDescription.innerHTML = "Alguns minutos";
+            } else if(percent <= 50){
+                passwordGenerated.classList.remove("inputPass-xs");
+                passwordGenerated.classList.remove("inputPass-lg");
+                passwordGenerated.classList.add("inputPass-md");
+                passwordGenerated.classList.remove("inputPass-sm");
+                labelLenght.innerHTML = "Média";
+                labelLenght.style.color = "#F3C650";
+                labelCardDescription.innerHTML = "Alguns dias";
+            } else if(percent <= 70){
+                passwordGenerated.classList.remove("inputPass-xs");
+                passwordGenerated.classList.remove("inputPass-lg");
+                passwordGenerated.classList.add("inputPass-md");
+                passwordGenerated.classList.remove("inputPass-sm");
+                labelLenght.innerHTML = "Forte";
+                labelLenght.style.color = "#5EE198";
+                labelCardDescription.innerHTML = "Alguns anos";
+            } else if(percent <= 90){
+                passwordGenerated.classList.remove("inputPass-xs");
+                passwordGenerated.classList.remove("inputPass-lg");
+                passwordGenerated.classList.remove("inputPass-md");
+                passwordGenerated.classList.add("inputPass-sm");
+                labelLenght.innerHTML = "Muito Forte";
+                labelLenght.style.color = "#4C8AD8";
+                labelCardDescription.innerHTML = "Milhares de anos";
+            } else{
+                passwordGenerated.classList.remove("inputPass-xs");
+                passwordGenerated.classList.remove("inputPass-lg");
+                passwordGenerated.classList.remove("inputPass-md");
+                passwordGenerated.classList.add("inputPass-sm");
+                labelLenght.innerHTML = "Inquebrável";
+                labelLenght.style.color = "#896CC4";
+                labelCardDescription.innerHTML = "Milhões de anos"; 
+            }
+
         }
 
 
@@ -820,40 +892,6 @@ input[type="checkbox"] {
             valueRangePassword = passwordLenght.value;
 
             valorRange = Number(passwordLenght.value);
-
-            if(valorRange <= 10) {
-                passwordGenerated.style = "font-size: 2rem";
-                labelLenght.innerHTML = "Fraca";
-                labelLenght.style.color = "#ED465B";
-                labelCardDescription.innerHTML = "Instantânea";
-            } else if(valorRange <= 30){
-                passwordGenerated.style = "font-size: 1.7rem";
-                labelLenght.innerHTML = "Razoável";
-                labelLenght.style.color = "#FB7F48";
-                labelCardDescription.innerHTML = "Alguns minutos";
-            } else if(valorRange <= 50){
-                passwordGenerated.style = "font-size: 1.4rem";
-                labelLenght.innerHTML = "Média";
-                labelLenght.style.color = "#F3C650";
-                labelCardDescription.innerHTML = "Alguns dias";
-            } else if(valorRange <= 70){
-                passwordGenerated.style = "font-size: 1.1rem";
-                labelLenght.innerHTML = "Forte";
-                labelLenght.style.color = "#5EE198";
-                labelCardDescription.innerHTML = "Alguns anos";
-            } else if(valorRange <= 90){
-                passwordGenerated.style = "font-size: 0.9rem";
-                labelLenght.innerHTML = "Muito Forte";
-                labelLenght.style.color = "#4C8AD8";
-                labelCardDescription.innerHTML = "Milhares de anos";
-            } else if(valorRange <= 110){
-                passwordGenerated.style = "font-size: 0.7rem";
-                labelLenght.innerHTML = "Inquebrável";
-                labelLenght.style.color = "#896CC4";
-                labelCardDescription.innerHTML = "Milhões de anos"; 
-            }
-
-
 
             viewValueRange.innerHTML = valorRange;
 
